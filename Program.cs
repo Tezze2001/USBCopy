@@ -7,14 +7,15 @@ namespace USBcopy
 {
     class Program
     {
-        /*public static string volume = "D:\\Università\\Anno1\\Analisi 1\\";*/
+        //public static string volume = "D:\\Università\\Anno1\\Analisi 1\\";
+        public static string volume;
         public static string fileExtention = "*.pdf";
         public static string destinationCopyDirectory = "\\copied\\";
 
         static void Main(string[] args)
         {
             /**
-             * ManagementEventWatcher is useful to interact with windows to get the event of pluged usb
+             * ManagementEventWatcher is useful to interact to Windows to get the event of plugged usb
              * */
             ManagementEventWatcher watcher = new ManagementEventWatcher();
             WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2");
