@@ -7,7 +7,6 @@ namespace USBcopy
 {
     class Program
     {
-        //public static string volume = "D:\\Università\\Anno1\\Analisi 1\\";
         public static string volume;
         public static string fileExtention = "*.pdf";
         public static string destinationCopyDirectory = "\\copied\\";
@@ -38,7 +37,16 @@ namespace USBcopy
         {
             if (dir.Length != 0)
             {
-                for (int i = ((dir[0].Equals("G:\\System Volume Information") && dir[1].Equals("G:\\$RECYCLE.BIN")) ? 2: 0); i < dir.Length; i++)
+                int i = 0;
+                if (dir.Length > 1 &&  (dir[0].Equals(volume + "System Volume Information") || dir[0].Equals(volume + "$RECYCLE.BIN")))
+                {
+                    i = 1;
+                }
+                if (dir.Length > 2 && (dir[1].Equals(volume + "System Volume Information") || dir[1].Equals(volume + "$RECYCLE.BIN")))
+                {
+                    i = 2;
+                }
+                for (; i < dir.Length; i++)
                 {
                     root.Nodes.Add(new TreeNode(dir[i] + "\\"));
                     popolateTreeDirectory(root.Nodes[root.Nodes.Count-1], Directory.GetDirectories(root.Nodes[root.Nodes.Count - 1].Text));
@@ -48,7 +56,7 @@ namespace USBcopy
         }
 
         /// <summary>
-        /// Method to create all tree directory in copied dir
+        /// Method to create all tree directory into destination path
         /// </summary>
         /// <param name="root"> root path </param>
         public static void createTreeDirectory(TreeNode root)
@@ -96,7 +104,7 @@ namespace USBcopy
             volume = e.NewEvent.Properties["DriveName"].Value.ToString() + "\\";
 
             Console.WriteLine("USB driver plugged in: " + volume);
-            
+
             TreeNode root = new TreeNode(volume);
 
             popolateTreeDirectory(root, Directory.GetDirectories(root.Text));
